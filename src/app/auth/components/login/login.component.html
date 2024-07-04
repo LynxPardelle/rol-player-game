@@ -1,0 +1,33 @@
+<section>
+  <p
+    class="ank-text-{{
+      loginMessage.type
+    }} ank-textAlign-center ank-my-1rem ank-fontWeight-BOLD ank-w-50per ank-d-block ank-mx-auto"
+    [exists]="!!loginMessage.message"
+    (exists)="cssCreate()"
+  >
+    {{ loginMessage.message }}
+  </p>
+  <generic-input
+    [inputClasses]="' ank-mx-auto ank-d-block '"
+    [containerClasses]="' ank-w-75per ank-mx-auto ank-d-block '"
+    [labelTitle]="'Email'"
+    [thingFather]="loginCredentials"
+    [thing]="'email'"
+  />
+  <generic-input
+    [inputClasses]="' ank-mx-auto ank-d-block '"
+    [containerClasses]="' ank-w-75per ank-mx-auto ank-d-block '"
+    [labelTitle]="'Password'"
+    [thingFather]="loginCredentials"
+    [thing]="'password'"
+    [type]="'password'"
+  />
+  <generic-button
+    [buttonInner]="'Send'"
+    [buttonBGColor]="'success'"
+    [buttonTextColor]="'white'"
+    [buttonClass]="'ank-mx-auto ank-d-block ank-w-75per ank-p-0_5rem'"
+    (buttonClick)="login()"
+  />
+</section>

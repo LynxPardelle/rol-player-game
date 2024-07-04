@@ -1,0 +1,149 @@
+@if (!!dropdownOpen && !disabled) {
+<div
+  class="ank-d-block ank-position-fixed ank ank-h-100vh ank-w-100vw ank-s-0 ank-t-0"
+  (click)="dropdownOpen = !!disabled ? false : !dropdownOpen"
+></div>
+} @if (!!labelTitle) {
+<label class="{{ labelClasses }}">
+  {{ labelTitle }}
+</label>
+}
+<button
+  id="{{ buttonId }}-btn-dropdown"
+  type="button"
+  class="ank-d-block ank-mx-auto ank ank-w-200px ank-lh-1 d-flex flex-nowrap ank-justifyContent-between ank-alignItems-center ank-overflow-hidden {{
+    !withSearcher ? ' ank-py-10px ' : ' ank-p-5px__0 '
+  }} {{
+    disabled && !!disabledClassButton ? disabledClassButton : buttonClasses
+  }}"
+  (click)="
+    clickedTitle.emit(placeholder);
+    dropdownOpen = !!disabled ? false : !dropdownOpen
+  "
+  [disabled]="disabled"
+>
+  @if (!withSearcher) {
+  <div class="ank ank-w-calcSD100per__MIN__10pxED">
+    {{ placeholder }}
+  </div>
+  } @else {
+  <div class="mat-chip-list-container" #chipList>
+    @if (placeholder !== '' && multiselect) {
+    <ng-container class="mat-chip-list-container">
+      <mat-chip-set
+        #chipGrid
+        aria-label="Placeholder"
+        style="width: 100% !important"
+      >
+        @for (pill of placeholder.toString().split(splitter); track pill; let
+        last = $last) {
+        <mat-chip
+          class="{{
+            placeholder.toString().split(splitter).length > 5
+              ? 'small-chip'
+              : ''
+          }}"
+          (removed)="
+            onClicked({
+              type: 'menuitemMultiselect',
+              option: pill,
+              click: pill
+            })
+          "
+          class="ank {{ chipClasses }}"
+          [exists]="!!last"
+          (exists)="cssCreate()"
+        >
+          {{ pill }}
+          <button matChipRemove [attr.aria-label]="'remove ' + pill">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        }
+      </mat-chip-set>
+    </ng-container>
+    }
+    <generic-input
+      class="ank ank-w-90per"
+      [placeholder]="placeholder.toString().replace(splitterRegEx, ',')"
+      [thingFather]="searcher"
+      [thing]="'search'"
+      [type]="!!multiselect ? 'textarea' : 'text'"
+      [showData]="!multiselect"
+      [inputClasses]="
+        inputClasses +
+        (!!multiselect
+          ? ' ank-p-5px__0 ank-rounded-0 '
+          : ' ank-py-5px ank-rounded-10px ')
+      "
+      [inputDisabledClasses]="
+        inputDisabledClasses +
+        (!!multiselect
+          ? ' ank-p-5px__0 ank-rounded-0 '
+          : ' ank-py-5px ank-rounded-10px ')
+      "
+      [disabled]="disabled"
+      [inputId]="inputId"
+      (changesInput)="InputReacher($event)"
+    ></generic-input>
+  </div>
+  }
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="10"
+    height="10"
+    viewBox="0 0 15 12"
+  >
+    <path
+      id="Polygon_1"
+      data-name="Polygon 1"
+      d="M6.652,1.357a1,1,0,0,1,1.7,0l5.7,9.113A1,1,0,0,1,13.2,12H1.8a1,1,0,0,1-.848-1.53Z"
+      transform="translate(15 12) rotate(180)"
+      fill="inherit"
+    />
+  </svg>
+</button>
+@if (!!dropdownOpen && !disabled) {
+<ul id="{{ dropdownId }}-dropdown" class="{{ listContainerClasses }}">
+  @for (option of options; track option.id) { @switch (true) { @case
+  (option.type.includes('menuitem')) {
+  <li
+    *ngIf="!placeholder.toString().includes(option.option) || !multiselect"
+    class="ank-cursor-pointer ank-textAlign-center ank-border-0 ank ank-p-5px__10px {{
+      listClasses
+    }} {{ disabled ? option.disabledClasses : option.customClasses }}"
+    (click)="
+      onClicked(option); dropdownOpen = !!disabled ? false : !dropdownOpen
+    "
+    role="menuitem"
+    [exists]="!placeholder.toString().includes(option.option) || !multiselect"
+    (exists)="cssCreate()"
+  >
+    <span
+      class="ank-w-100per ank {{
+        hasOption(option.option) ? selectedItemClasses : ''
+      }}"
+    >
+      {{ option.option }}
+    </span>
+  </li>
+  } @case (option.type.includes('divider')) {
+  <li
+    class="ank-textAlign-center ank {{
+      disabled ? option.disabledClasses : option.customClasses
+    }} divider dropdown-divider"
+  ></li>
+  } @default {
+  <li
+    class="ank ank-textAlign-center ank-p-5px__10px {{ listClasses }} {{
+      disabled ? option.disabledClasses : option.customClasses
+    }}"
+    (click)="
+      onClicked(option); dropdownOpen = !!disabled ? false : !dropdownOpen
+    "
+  >
+    {{ option.option }}
+  </li>
+  } } }
+</ul>
+}

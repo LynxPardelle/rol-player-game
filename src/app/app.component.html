@@ -1,32 +1,4 @@
-<h1>Rol Playing Game</h1>
-@if (isIdentified) {
-<h2>Welcome {{ player.userName }}</h2>
-}@else {
-<h2>Please Identify</h2>
-<h3>UserName: {{ player.userName }}</h3>
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <mat-label>UserName</mat-label>
-    <input
-      matInput
-      placeholder="Put your userName here"
-      value="{{ player.userName }}"
-      [(ngModel)]="player.userName"
-      #userName="ngModel"
-      [ngModelOptions]="{ standalone: true }"
-    />
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <mat-label>Email</mat-label>
-    <input
-      matInput
-      placeholder="Put your email here"
-      value="{{ player.email }}"
-      [(ngModel)]="player.email"
-      [ngModelOptions]="{ standalone: true }"
-    />
-  </mat-form-field>
-  <button mat-raised-button (click)="checkIfIdentified()">Identify</button>
-</form>
-}
+<a href="/home" [routerLink]="['/home']">
+  <h1 class="ank-textAlign-center ank-text-white">Role Playing Game</h1>
+</a>
+<router-outlet></router-outlet>

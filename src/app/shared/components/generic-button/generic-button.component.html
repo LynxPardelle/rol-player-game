@@ -1,0 +1,14 @@
+<button
+  class="ank {{ buttonClass }} ank-bg-{{
+    !!disabled ? buttonBGColor + '__OPA__0_75' : buttonBGColor
+  }} ank-text-{{ buttonTextColor }} "
+  (click)="buttonClick.emit(buttonId)"
+  [disabled]="disabled"
+  [innerHTML]="buttonInner || '' | safeHtml"
+  matTooltip="{{ tooltip }}"
+  [matTooltipPosition]="tooltipPosition"
+  matTooltipClass="{{ tooltipClass }}"
+  [matTooltipDisabled]="!showTooltip"
+  [exists]="true"
+  (exists)="cssCreate()"
+></button>

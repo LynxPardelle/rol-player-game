@@ -1,0 +1,144 @@
+@if (['checkbox', 'radio', 'select', 'select-dropdown'].includes(type)) {@if
+(!type.includes('select') && labelTitle !== '') {
+<label class="{{ labelClasses }}">{{ labelTitle }}</label>
+}
+<div class="{{ !type.includes('select') ? containerClasses : '' }}">
+  @switch (type) { @case ('checkbox') {
+  <button
+    class="{{
+      disabled && disabledClassButton
+        ? disabledClassButton
+        : readonly && readonlyClassButton
+        ? readonlyClassButton
+        : buttonClasses
+    }} {{
+      thingFather[thing] == true ? checkBoxTrueClasses : checkBoxFalseClasses
+    }}"
+    [exists]="type === 'checkbox'"
+    (exists)="cssCreate()"
+    (click)="changeValue(!thingFather[thing])"
+    [disabled]="disabled || readonly"
+  >
+    <ng-content></ng-content>
+  </button>
+
+  } @case ('radio') { @for (op of options; track op.id) {
+  <p class="ank-textAlign-center ank-textTransform-capitalize">
+    {{ op.option }}
+  </p>
+  <button
+    class="{{
+      disabled && disabledClassButton
+        ? disabledClassButton
+        : readonly && readonlyClassButton
+        ? readonlyClassButton
+        : buttonClasses
+    }} {{ op.customClasses }} {{
+      thingFather[thing] === op.click
+        ? radioSelectedClasses
+        : radioNotSelectedClasses
+    }}"
+    (click)="changeValue(op.click)"
+    [disabled]="disabled || readonly"
+  ></button>
+  }}@case ('select') {
+  <mat-form-field class="ank {{ containerClasses }}">
+    <mat-label class="{{ labelClasses }}">{{ labelTitle }}</mat-label>
+    <mat-select
+      [(ngModel)]="thingFather[thing]"
+      (ngModelChange)="writtingInInput($event)"
+      name="{{ thing }}"
+      value="{{ thingFather[thing] }}"
+    >
+      @for (op of options; track op.option) {
+      <mat-option
+        class="{{
+          disabled && op.disabledClasses ? op.disabledClasses : op.customClasses
+        }}"
+        [value]="op.click"
+        >{{ op.option }}</mat-option
+      >
+      }
+    </mat-select>
+  </mat-form-field>
+  } @case ('select-dropdown') {
+  <generic-dropdown
+    [labelTitle]="labelTitle"
+    [placeholder]="placeholder"
+    [labelClasses]="labelClasses"
+    [buttonClasses]="buttonClasses"
+    [disabledClassButton]="disabledClassButton"
+    [listClasses]="listClasses"
+    [options]="options"
+    [disabled]="disabled || readonly"
+    [id]="inputId"
+    (clickedTitle)="clickedTitle.emit($event)"
+    (clicked)="clicked.emit($event)"
+  >
+  </generic-dropdown>
+  } @default {
+  <span>Select a Correct type</span>
+  } }
+  <ng-container *ngTemplateOutlet="buttonsTemplate"></ng-container>
+</div>
+} @else {
+<mat-form-field class="{{ containerClasses }}">
+  <mat-label class="{{ labelClasses }}">{{ labelTitle }}</mat-label>
+  <input
+    class="{{
+      disabled && !!inputDisabledClasses && inputDisabledClasses !== ''
+        ? inputDisabledClasses
+        : readonly && !!readonlyClasses && readonlyClasses !== ''
+        ? readonlyClasses
+        : inputClasses
+    }}"
+    type="{{ inputMaskActive === true ? 'text' : type }}"
+    name="{{ thing }}"
+    id="{{ inputId }}"
+    #[thing]="ngModel"
+    [(ngModel)]="thingFather[thing]"
+    (ngModelChange)="writtingInInput($event)"
+    placeholder="{{ placeholder }}"
+    value="{{ thingFather[thing] }}"
+    [min]="minInput"
+    [max]="maxInput"
+    [disabled]="disabled || readonly"
+    [readonly]="readonly"
+    [required]="required"
+    [inputMask]="trueInputMask"
+    matInput
+  />
+</mat-form-field>
+<ng-container *ngTemplateOutlet="buttonsTemplate"></ng-container>
+} @for (span of spansNotPassed; track span.text; let last = $last) {
+<span class="ank {{ span.spanClass }}" [exists]="last" (exists)="cssCreate()">
+  {{ span.text }}
+</span>
+}
+
+<ng-template #buttonsTemplate>
+  @for (button of buttons; track button.buttonId) {
+  <generic-button
+    [buttonId]="button.buttonId ? button.buttonId : undefined"
+    [buttonInner]="button.buttonInner ? button.buttonInner : undefined"
+    [buttonBGColor]="button.buttonBGColor ? button.buttonBGColor : undefined"
+    [buttonTextColor]="
+      button.buttonTextColor ? button.buttonTextColor : undefined
+    "
+    [buttonClass]="button.buttonClass ? button.buttonClass : undefined"
+    [buttonDisabledClass]="
+      button.buttonDisabledClass ? button.buttonDisabledClass : undefined
+    "
+    [buttonType]="button.buttonType ? button.buttonType : undefined"
+    [disabled]="button.disabled !== undefined ? button.disabled : false"
+    [tooltip]="button.tooltip ? button.tooltip : ''"
+    [tooltipPosition]="
+      button.tooltipPosition ? button.tooltipPosition : 'above'
+    "
+    [showTooltip]="button.showTooltip ? button.showTooltip : false"
+    [tooltipClass]="button.tooltipClass ? button.tooltipClass : ''"
+    (buttonClick)="buttonClick.emit($event)"
+    (getButtonId)="buttonIdListen($event)"
+  ></generic-button>
+  }
+</ng-template>

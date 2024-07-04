@@ -1,0 +1,62 @@
+<section>
+  <p
+    class="ank-text-{{
+      registerMessage.type
+    }} ank-textAlign-center ank-my-1rem ank-fontWeight-BOLD ank-w-50per ank-d-block ank-mx-auto"
+    [exists]="!!registerMessage.message"
+    (exists)="cssCreate()"
+  >
+    {{ registerMessage.message }}
+  </p>
+  @if (registerMessage.type === 'success') {
+  <a
+    href="/auth/login"
+    [routerLink]="['/auth/login']"
+    routerLinkActive="router-link-active"
+    ><generic-button
+      [buttonInner]="'Login'"
+      [buttonBGColor]="'primary'"
+      [buttonTextColor]="'white'"
+      [buttonClass]="
+        'ank-mx-auto ank-d-block ank-w-75per ank-p-0_5rem ank-bc-white ank-my-1rem'
+      "
+  /></a>
+  }
+  <generic-input
+    [inputClasses]="' ank-mx-auto ank-d-block '"
+    [containerClasses]="' ank-w-75per ank-mx-auto ank-d-block '"
+    [labelTitle]="'UserName'"
+    [thingFather]="registerCredentials"
+    [thing]="'userName'"
+  />
+  <generic-input
+    [inputClasses]="' ank-mx-auto ank-d-block '"
+    [containerClasses]="' ank-w-75per ank-mx-auto ank-d-block '"
+    [labelTitle]="'Email'"
+    [thingFather]="registerCredentials"
+    [thing]="'email'"
+  />
+  <generic-input
+    [inputClasses]="' ank-mx-auto ank-d-block '"
+    [containerClasses]="' ank-w-75per ank-mx-auto ank-d-block '"
+    [labelTitle]="'Password'"
+    [thingFather]="registerCredentials"
+    [thing]="'password'"
+    [type]="'password'"
+  />
+  <generic-input
+    [inputClasses]="' ank-mx-auto ank-d-block '"
+    [containerClasses]="' ank-w-75per ank-mx-auto ank-d-block '"
+    [labelTitle]="'Confirm Password'"
+    [thingFather]="registerCredentials"
+    [thing]="'confirmPassword'"
+    [type]="'password'"
+  />
+  <generic-button
+    [buttonInner]="'Send'"
+    [buttonBGColor]="'success'"
+    [buttonTextColor]="'white'"
+    [buttonClass]="'ank-mx-auto ank-d-block ank-w-75per ank-p-0_5rem'"
+    (buttonClick)="register()"
+  />
+</section>
