@@ -1,4 +1,77 @@
-<a href="/home" [routerLink]="['/home']">
-  <h1 class="ank-textAlign-center ank-text-white">Role Playing Game</h1>
-</a>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="ank-bg-dark">
+  <mat-sidenav
+    #sidenav1
+    mode="side"
+    [(opened)]="sideNav1Opened"
+    class="ank-bg-dark ank-text-white ank-borderRight-1px__solid__white ank-w-25vw"
+    position="start"
+    (opened)="(null)"
+    (closed)="(null)"
+  >
+    <h2 class="text-center">Menu</h2>
+    <ng-container
+      *ngTemplateOutlet="navigation; context: { options: sideNav1Options }"
+    ></ng-container>
+  </mat-sidenav>
+  <mat-sidenav
+    #sidenav2
+    mode="side"
+    [(opened)]="sideNav2Opened"
+    class="ank-bg-dark ank-text-white"
+    position="end"
+    (opened)="(null)"
+    (closed)="(null)"
+  >
+    <h2 class="text-center">Menu</h2>
+    <ng-container
+      *ngTemplateOutlet="navigation; context: { options: sideNav2Options }"
+    ></ng-container>
+  </mat-sidenav>
+  <mat-sidenav-content class="ank-hmn-100vh">
+    <header class="ank-d-flex ank-alignItems-center ank-justifyContent-center">
+      <button
+        mat-button
+        (click)="sidenav1.toggle()"
+        class="ank-bg-white ank-text-dark ank-m-1rem position-fixed ank-top-0 ank-left-0"
+      >
+        Menu
+      </button>
+      <a
+        href="/home"
+        [routerLink]="['/home']"
+        class="ank-my-1rem text-decoration-none"
+      >
+        <h1 class="ank-textAlign-center ank-text-white">Role Playing Game</h1>
+      </a>
+    </header>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #navigation let-options="options">
+  <mat-list role="list">
+    @for (r of options; track r.title) {
+    <mat-list-item role="listitem" class="text-center">
+      @switch (r.type) { @case ('link') {
+      <a
+        href="{{ r.route }}"
+        [routerLink]="[r.route]"
+        class="ank-my-1rem ank-wordBreak-breakMINword"
+      >
+        {{ r.label }}
+      </a>
+      } @case ('button') {
+      <button
+        mat-button
+        (click)="r.trigger()"
+        class="ank-bg-white ank-text-dark ank-m-1rem mx-auto ank-my-1rem ank-d-block ank-wordBreak-breakMINword"
+      >
+        {{ r.title }}
+      </button>
+      } @default {
+      <span class="ank-my-1rem">{{ r.content }}</span>
+      } }
+    </mat-list-item>
+    }
+  </mat-list>
+</ng-template>

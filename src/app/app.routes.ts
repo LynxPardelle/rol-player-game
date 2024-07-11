@@ -17,6 +17,11 @@ export const routes: Routes = [
     loadChildren: () => import('./auth/auth.routes').then((m) => m.routes),
   },
   {
+    path: 'character',
+    loadChildren: () =>
+      import('./character/character.routes').then((m) => m.routes),
+  },
+  {
     path: '**',
     component: ErrorComponent,
   },

@@ -27,7 +27,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
-  public registerCredentials: TPlayer & {
+  public registerCredentials: Omit<TPlayer, '_id'> & {
     confirmPassword: string;
     lockeds?: any;
   } = {
@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit {
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'player',
   };
   public registerMessage: TConsoleMessage = {
     type: 'info',
@@ -81,6 +82,7 @@ export class RegisterComponent implements OnInit {
           userName: this.registerCredentials.userName,
           email: this.registerCredentials.email,
           password: this.registerCredentials.password,
+          role: this.registerCredentials.role || 'player',
         })
         .pipe(takeUntil(this.onDestroySubscription))
         .subscribe({

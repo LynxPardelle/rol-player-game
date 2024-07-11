@@ -1,8 +1,4 @@
+export type TStatsOptions = 'str' | 'dex' | 'con' | 'int' | 'wis' | 'cha';
 export type TStats = {
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  intelligence: number;
-  wisdom: number;
-  charisma: number;
+  [key in TStatsOptions]: string;
 };

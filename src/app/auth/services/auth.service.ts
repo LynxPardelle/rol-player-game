@@ -12,6 +12,7 @@ import { map, Observable } from 'rxjs';
 import { TPlayer } from '../interfaces/player.type';
 /* Services */
 import { PlayerService } from '../../player/services/player.service';
+import { SharedService } from '../../shared/services/shared.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,12 +23,19 @@ export class AuthService {
   >(undefined);
   private readonly platformId = inject(PLATFORM_ID);
   public isBrowser: boolean = false;
-  constructor(private _playerService: PlayerService) {
+  constructor(
+    private _playerService: PlayerService,
+    private _sharedService: SharedService
+  ) {
     this.getPlayerFromLocalStorage();
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-  register(player: TPlayer): Observable<any> {
-    return this._playerService.createPlayer(player);
+  register(player: Omit<TPlayer, '_id'>): Observable<any> {
+    const newPlayer: TPlayer = {
+      ...player,
+      _id: this._sharedService.getRandomId(16),
+    };
+    return this._playerService.createPlayer(newPlayer);
   }
   login(email: string, password: string): Observable<any> {
     return this._playerService.getPlayer(email).pipe(

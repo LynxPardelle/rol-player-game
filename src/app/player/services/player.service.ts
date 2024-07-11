@@ -27,7 +27,7 @@ export class PlayerService {
   /* Create */
   createPlayer(player: TPlayer): Observable<TPlayer> {
     let players: TPlayer[] = this.players$();
-    if (players.find((p) => p.email === player.email) === undefined) {
+    if (players.find((p) => p._id === player._id) === undefined) {
       players.push(player);
       this.players$.set(players);
       this.savePlayers();
@@ -41,10 +41,10 @@ export class PlayerService {
     }
   }
   /* Read */
-  getPlayer(playerEmail: string): Observable<TPlayer | undefined> {
+  getPlayer(id: string): Observable<TPlayer | undefined> {
     this.getPlayersFromLocalStorage();
     return of(this.players$()).pipe(
-      map((players) => players.find((p) => p.email === playerEmail))
+      map((players) => players.find((p) => p._id === id))
     );
   }
   getPlayers(): Observable<TPlayer[]> {
@@ -54,9 +54,9 @@ export class PlayerService {
   /* Update */
   updatePlayer(player: TPlayer): Observable<TPlayer> {
     let players: TPlayer[] = this.players$();
-    if (players.find((p) => p.email === player.email) !== undefined) {
+    if (players.find((p) => p._id === player._id) !== undefined) {
       this.players$.update((players) =>
-        players.map((p) => (p.email === player.email ? player : p))
+        players.map((p) => (p._id === player._id ? player : p))
       );
       this.savePlayers();
       return of(player);
@@ -69,15 +69,11 @@ export class PlayerService {
     }
   }
   /* Delete */
-  deletePlayer(playerEmail: string): Observable<TPlayer> {
+  deletePlayer(id: string): Observable<TPlayer> {
     let players: TPlayer[] = this.players$();
-    let player: TPlayer | undefined = players.find(
-      (p) => p.email === playerEmail
-    );
+    let player: TPlayer | undefined = players.find((p) => p._id === id);
     if (player !== undefined) {
-      this.players$.update((players) =>
-        players.filter((p) => p.email !== playerEmail)
-      );
+      this.players$.update((players) => players.filter((p) => p._id !== id));
       this.savePlayers();
       return of(player);
     } else {
