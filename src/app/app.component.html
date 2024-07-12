@@ -1,4 +1,4 @@
-<mat-sidenav-container class="ank-bg-dark">
+<mat-sidenav-container class="ank-bg-dark position-relative">
   <mat-sidenav
     #sidenav1
     mode="side"
@@ -17,7 +17,7 @@
     #sidenav2
     mode="side"
     [(opened)]="sideNav2Opened"
-    class="ank-bg-dark ank-text-white"
+    class="ank-bg-dark ank-text-white ank-borderLeft-1px__solid__white ank-w-25vw"
     position="end"
     (opened)="(null)"
     (closed)="(null)"
@@ -31,8 +31,10 @@
     <header class="ank-d-flex ank-alignItems-center ank-justifyContent-center">
       <button
         mat-button
-        (click)="sidenav1.toggle()"
-        class="ank-bg-white ank-text-dark ank-m-1rem position-fixed ank-top-0 ank-left-0"
+        (click)="sidenav1.toggle(); cssCreate()"
+        class="ank-bg-white ank-text-dark ank-m-1rem position-fixed ank-top-0 ank-left-{{
+          !sideNav1Opened ? '0' : '25vw'
+        }} ank-zIndex-10 ank-transition-all__0_25s__ease-out"
       >
         Menu
       </button>

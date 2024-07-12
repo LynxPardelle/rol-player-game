@@ -3,6 +3,8 @@ import { TBackground } from './background.type';
 import { TClass } from './class.type';
 import { TEntity } from './entity.type';
 import { TRace } from './race.type';
+import { TSpell } from './spell.type';
+import { TSubClass } from './subClass.type';
 import { TXPTable } from './xpTable.type';
 
 export type TCharClass = {
@@ -12,7 +14,16 @@ export type TCharClass = {
 export type TCharacter = {
   _id: string;
   name: string;
-  class: TCharClass[];
+  class: {
+    class: TCharClass[];
+    subClass: TSubClass[];
+    level: number;
+    spells: TSpell[];
+    sloths: {
+      slothLevel: number;
+      slothAmount: number;
+    }[];
+  }[];
   background: TBackground;
   player: string | TPlayer;
   currentXP: number;
@@ -27,8 +38,9 @@ export type TCharacter = {
   flaws: string;
   notes: { title: string; decription?: string; link?: string }[];
   toolsProficiency: string[];
-  languages: string[];
   weaponsProficiency: string[];
   armorsProficiency: string[];
   vehiclesProficiency: string[];
+  alliesNOrganizations: string[];
+  characterBackstory: string;
 } & TEntity;

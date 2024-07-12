@@ -1,8 +1,10 @@
 import { TAttack } from './attack.type';
 import { TCondition } from './conditions.type';
 import { TFeature } from './feature.type';
+import { TObject } from './object.type';
 import { TRace } from './race.type';
 import { TSkills } from './skills.type';
+import { TSpell } from './spell.type';
 import { TStats } from './stats.type';
 
 export type TConditionalAC = {
@@ -64,4 +66,23 @@ export type TEntity = {
     maxQuantity?: number;
   }[];
   attacks: TAttack[];
+  objects: TObject[];
+  spells: {
+    spell: TSpell;
+    slotLevel: number[];
+  }[];
+  age: number;
+  height: number;
+  weight: number;
+  size: 'Tiny' | 'Small' | 'Medium' | 'Large' | 'Huge' | 'Gargantuan';
+  gender: string;
+  eyes: string;
+  hair: string;
+  skin: string;
+  appearance: string;
+  languages: string[];
+  background: string;
+  symbol: string;
+  description: string;
+  xpValue: number;
 };

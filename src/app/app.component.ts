@@ -105,6 +105,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this._ank.values.importantActive = true;
       // this._ank.changeDebugOption(true);
       this.cssCreate();
+      this._ank.updateClasses(['ank-left-0', 'ank-left-25vw']);
     });
   }
 

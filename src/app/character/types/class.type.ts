@@ -15,6 +15,9 @@ export type TClass = {
   skillProficiencies: TSkillsOptions[];
   baseEquipmentOptions: { object: TObject[]; quantity: number }[];
   features: TFeature[];
+  // spellProgression: TSpellProgession;
+  spellCastingHability: TStatsOptions | null;
+  spellSaveDCBonus: number;
 };
 
 export type TClassOptions =
